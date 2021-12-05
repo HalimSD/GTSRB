@@ -6,6 +6,8 @@ from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 if __name__ == "__main__":
     
+    # Activate this part of the code with the appropriate paths to use the 
+    # split_data utility function to split the training dataset into 90% training and 10% validation 
     if False:
         path_to_data = "./archive/Train"
         path_to_save_train = "./archive/training_data/train"
@@ -13,6 +15,7 @@ if __name__ == "__main__":
         split_data(path_to_data, path_to_save_train=path_to_save_train,
                    path_to_save_val=path_to_save_val)
 
+    # Activate with appropriate path to organize the test dataset based on the info in the csv file
     if False:
         path_to_imgs = "./archive/Test"
         pathe_to_csv = "./archive/Test.csv"
@@ -32,7 +35,8 @@ if __name__ == "__main__":
     TEST = True
 
     if TRAIN:
-
+        
+        # A callback to save the model with the maximum accuracy value obtained during training
         path_to_save_model = './ModelsData'
         chpt_saver = ModelCheckpoint(
             path_to_save_model,
@@ -43,15 +47,18 @@ if __name__ == "__main__":
             verbose=1
         )
 
+        # A callback to stop the training if the accuracy doesn't improve after patience num of training rounds
         early_stop = EarlyStopping(
             monitor='val_accuracy',
             patience=10,
-
         )
 
         model = street_sign_model(nmb_calsses)
+        # Using the same loss function used in the preprocessing
         model.compile(optimizer='adam',
                       loss='categorical_crossentropy', metrics=['accuracy'])
+        # Passing the generator because it contains the img and its label which are the return
+        # Type of ImageDataGenerator.flow_from_directory used in the utils.py
         model.fit(train_generator, epochs=epochs, batch_size=batch_size,
                   validation_data=val_generator, callbacks=[chpt_saver, early_stop])
 
