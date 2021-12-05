@@ -17,7 +17,8 @@ def street_sign_model(nm_classes):
     x = MaxPool2D()(x)
     x = BatchNormalization()(x)
 
-    x = Flatten()(x)
+    # x = Flatten()(x)
+    x = GlobalAvgPool2D()(x)
     x = Dense(128, activation='relu')(x)
     x = Dense(nm_classes, activation='softmax')(x)
 
