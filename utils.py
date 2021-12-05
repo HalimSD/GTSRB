@@ -20,7 +20,6 @@ def split_data(path_to_data, path_to_save_train, path_to_save_val, split_size=0.
             path_to_folder = os.path.join(path_to_save_train, folder)
             if not os.path.isdir(path_to_folder):
                 os.mkdir(path_to_folder)
-
             shutil.copy(x, path_to_folder)
 
         for x in x_val:
@@ -28,7 +27,6 @@ def split_data(path_to_data, path_to_save_train, path_to_save_val, split_size=0.
             path_to_folder = os.path.join(path_to_save_val, folder)
             if not os.path.isdir(path_to_folder):
                 os.mkdir(path_to_folder)
-
             shutil.copy(x, path_to_folder)
 
 
@@ -55,15 +53,16 @@ def order_test_set(path_to_imgs, path_to_csv):
     except:
         print('[INFO] : Error reading the csv file')
 
+
 def create_generators(batch_size, train_data_path, val_data_path, test_data_path):
     perprocessor = ImageDataGenerator(
-        rescale= 1/255.
+        rescale=1/255.
     )
 
     train_generator = perprocessor.flow_from_directory(
         train_data_path,
-        class_mode= "categorical",
-        target_size=(60,60),
+        class_mode="categorical",
+        target_size=(60, 60),
         color_mode='rgb',
         shuffle=True,
         batch_size=batch_size
@@ -71,8 +70,8 @@ def create_generators(batch_size, train_data_path, val_data_path, test_data_path
 
     val_generator = perprocessor.flow_from_directory(
         val_data_path,
-        class_mode= "categorical",
-        target_size=(60,60),
+        class_mode="categorical",
+        target_size=(60, 60),
         color_mode='rgb',
         shuffle=False,
         batch_size=batch_size
@@ -80,8 +79,8 @@ def create_generators(batch_size, train_data_path, val_data_path, test_data_path
 
     test_generator = perprocessor.flow_from_directory(
         test_data_path,
-        class_mode= "categorical",
-        target_size=(60,60),
+        class_mode="categorical",
+        target_size=(60, 60),
         color_mode='rgb',
         shuffle=False,
         batch_size=batch_size
